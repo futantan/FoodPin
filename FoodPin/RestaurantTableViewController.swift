@@ -43,7 +43,7 @@ class RestaurantTableViewController: UITableViewController {
     super.viewDidLoad()
 
     self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .Plain, target: nil, action: nil)
-    
+
     tableView.estimatedRowHeight = 80.0
     tableView.rowHeight = UITableViewAutomaticDimension
   }
@@ -55,6 +55,10 @@ class RestaurantTableViewController: UITableViewController {
         destinationController.restaurant = restaurants[indexPath.row]
       }
     }
+  }
+
+  @IBAction func unwindToHomeScreen(sender: UIStoryboardSegue) {
+
   }
 
 // MARK: - Table view data source

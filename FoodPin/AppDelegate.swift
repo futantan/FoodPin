@@ -15,18 +15,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    // Override point for customization after application launch.
-    UINavigationBar.appearance().barTintColor = UIColor(red: 231.0 / 255.0, green: 95.0 / 255.0, blue: 53.0 / 255.0, alpha: 0.3) // navigationBar 背景颜色
-    UINavigationBar.appearance().tintColor = UIColor.whiteColor() // 返回键颜色
+    // Change navigation bar appearance
+    UINavigationBar.appearance().barTintColor = UIColor(red: 231.0/255.0, green: 95.0/255.0, blue: 53.0/255.0, alpha: 0.3)
     
-    UIBarButtonItem.appearance().tintColor = UIColor(red: 235.0 / 255.0, green: 73.0 / 255.0, blue: 27.0 / 255.0, alpha: 1.0)
-    UIToolbar.appearance().barTintColor = UIColor(red: 237.0 / 255.0, green: 240.0 / 255.0, blue: 243.0 / 255.0, alpha: 0.5)
+    UINavigationBar.appearance().tintColor = UIColor.whiteColor()
     
     if let barFont = UIFont(name: "AvenirNextCondensed-DemiBold", size: 22.0) {
-      UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor(), NSFontAttributeName: barFont]
+      UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName:UIColor.whiteColor(), NSFontAttributeName:barFont]
     }
     
+    // Change status bar style
     UIApplication.sharedApplication().statusBarStyle = .LightContent
+    
+    // Change toolbar style
+    //    UIBarButtonItem.appearance().tintColor = UIColor(red: 235.0/255.0, green: 73.0/255.0, blue: 27.0/255.0, alpha: 1.0)
+    UIToolbar.appearance().barTintColor = UIColor(red: 237.0/255.0, green: 240.0/255.0, blue: 243.0/255.0, alpha: 0.5)
+    
     return true
   }
 

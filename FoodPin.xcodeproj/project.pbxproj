@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18509E681BABB25A00114975 /* AddTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18509E671BABB25A00114975 /* AddTableViewController.swift */; };
 		18BA303F1BAA9F8D003C1FD3 /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BA303E1BAA9F8D003C1FD3 /* ReviewViewController.swift */; };
 		18BA30441BAAA745003C1FD3 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18BA30431BAAA745003C1FD3 /* ShareViewController.swift */; };
 		18BA30481BAAB1B5003C1FD3 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BA30471BAAB1B5003C1FD3 /* MapKit.framework */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18509E671BABB25A00114975 /* AddTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTableViewController.swift; sourceTree = "<group>"; };
 		18BA303E1BAA9F8D003C1FD3 /* ReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		18BA30431BAAA745003C1FD3 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		18BA30471BAAB1B5003C1FD3 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -100,6 +102,7 @@
 				18BA303E1BAA9F8D003C1FD3 /* ReviewViewController.swift */,
 				18BA30431BAAA745003C1FD3 /* ShareViewController.swift */,
 				18BA30491BAABC52003C1FD3 /* MapViewController.swift */,
+				18509E671BABB25A00114975 /* AddTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				18D14C001BA70FCB00279A9F /* AppDelegate.swift in Sources */,
 				18BA30441BAAA745003C1FD3 /* ShareViewController.swift in Sources */,
 				18D14C241BA85BCF00279A9F /* DetailViewController.swift in Sources */,
+				18509E681BABB25A00114975 /* AddTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
