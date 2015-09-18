@@ -12,14 +12,14 @@ class Restaurant {
   var name: String = ""
   var type: String = ""
   var location: String = ""
-  var imageName: String = ""
+  var image: String = ""
   var isVisited: Bool = false
   
   init(name: String, type: String, location: String, imageName: String, isVisited: Bool) {
     self.name = name
     self.type = type
     self.location = location
-    self.imageName = imageName
+    self.image = imageName
     self.isVisited = isVisited
   }
 }

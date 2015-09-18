@@ -82,7 +82,7 @@ class RestaurantTableViewController: UITableViewController {
     cell.nameLabel?.text = restaurant.name
     cell.locationLabel?.text = restaurant.location
     cell.typeLabel?.text = restaurant.type
-    cell.thumbnailImageView?.image = UIImage(named: restaurant.imageName)
+    cell.thumbnailImageView?.image = UIImage(named: restaurant.image)
     cell.favorIconImageView?.hidden = !restaurant.isVisited
 
     cell.thumbnailImageView.layer.cornerRadius = cell.thumbnailImageView.frame.size.width / 2
