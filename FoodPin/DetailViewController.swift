@@ -25,7 +25,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    self.restaurantImageView.image = UIImage(named: restaurant.image)
+    self.restaurantImageView.image = UIImage(data: restaurant.image)
     self.tableView.backgroundColor = UIColor(red: 240.0 / 255.0, green: 240.0 / 255.0, blue: 240.0 / 255.0, alpha: 0.2) // 设置背景颜色
     self.tableView.tableFooterView = UIView(frame: CGRectZero) // 去除空白行的分隔线
     self.tableView.separatorColor = UIColor(red: 240.0 / 255.0, green: 240.0 / 255.0, blue: 240.0 / 255.0, alpha: 0.8) // 设置分割线颜色
@@ -68,7 +68,7 @@ class DetailViewController: UIViewController, UITableViewDataSource, UITableView
       cell.mapButton.hidden = false
     case 3:
       cell.fieldLabel.text = "Been here"
-      cell.valueLabel.text = (restaurant.isVisited) ? "Yes, I've been here before" : "No"
+      cell.valueLabel.text = (restaurant.isVisited.boolValue) ? "Yes, I've been here before" : "No"
     default:
       cell.fieldLabel.text = ""
       cell.valueLabel.text = ""

@@ -7,32 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
-class RestaurantTableViewController: UITableViewController {
+class RestaurantTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
-  var restaurants: [Restaurant] = [
-      Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "G/F, 72 Po Hing Fong, Sheung Wan, Hong Kong", imageName: "cafedeadend.jpg", isVisited: true),
-      Restaurant(name: "Homei", type: "Cafe", location: "Shop B, G/F, 22-24A Tai Ping San Street SOHO, Sheung Wan, Hong Kong", imageName: "homei.jpg", isVisited: false),
-      Restaurant(name: "Teakha", type: "Tea House", location: "Shop B, 18 Tai Ping Shan Road SOHO, Sheung Wan, Hong Kong", imageName: "teakha.jpg", isVisited: false),
-      Restaurant(name: "Cafe loisl", type: "Austrian / Causual Drink", location: "Shop B, 20 Tai Ping Shan Road SOHO, Sheung Wan, Hong Kong", imageName: "cafeloisl.jpg", isVisited: false),
-      Restaurant(name: "Petite Oyster", type: "French", location: "24 Tai Ping Shan Road SOHO, Sheung Wan, Hong Kong", imageName: "petiteoyster.jpg", isVisited: false),
-      Restaurant(name: "For Kee Restaurant", type: "Bakery", location: "Shop J-K., 200 Hollywood Road, SOHO, Sheung Wan, Hong Kong", imageName: "forkeerestaurant.jpg", isVisited: false),
-      Restaurant(name: "Po's Atelier", type: "Bakery", location: "G/F, 62 Po Hing Fong, Sheung Wan, Hong Kong", imageName: "posatelier.jpg", isVisited: false),
-      Restaurant(name: "Bourke Street Backery", type: "Chocolate", location: "633 Bourke St Sydney New South Wales 2010 Surry Hills", imageName: "bourkestreetbakery.jpg", isVisited: false),
-      Restaurant(name: "Haigh's Chocolate", type: "Cafe", location: "412-414 George St Sydney New South Wales", imageName: "haighschocolate.jpg", isVisited: false),
-      Restaurant(name: "Palomino Espresso", type: "American / Seafood", location: "Shop 1 61 York St Sydney New South Wales", imageName: "palominoespresso.jpg", isVisited: false),
-      Restaurant(name: "Upstate", type: "American", location: "95 1st Ave New York, NY 10003", imageName: "upstate.jpg", isVisited: false),
-      Restaurant(name: "Traif", type: "American", location: "229 S 4th St Brooklyn, NY 11211", imageName: "traif.jpg", isVisited: false),
-      Restaurant(name: "Graham Avenue Meats", type: "Breakfast & Brunch", location: "445 Graham Ave Brooklyn, NY 11211", imageName: "grahamavenuemeats.jpg", isVisited: false),
-      Restaurant(name: "Waffle & Wolf", type: "Coffee & Tea", location: "413 Graham Ave Brooklyn, NY 11211", imageName: "wafflewolf.jpg", isVisited: false),
-      Restaurant(name: "Five Leaves", type: "Coffee & Tea", location: "18 Bedford Ave Brooklyn, NY 11222", imageName: "fiveleaves.jpg", isVisited: false),
-      Restaurant(name: "Cafe Lore", type: "Latin American", location: "Sunset Park 4601 4th Ave Brooklyn, NY 11220", imageName: "cafelore.jpg", isVisited: false),
-      Restaurant(name: "Confessional", type: "Spanish", location: "308 E 6th St New York, NY 10003", imageName: "confessional.jpg", isVisited: false),
-      Restaurant(name: "Barrafina", type: "Spanish", location: "54 Frith Street London W1D 4SL United Kingdom", imageName: "barrafina.jpg", isVisited: false),
-      Restaurant(name: "Donostia", type: "Spanish", location: "10 Seymour Place London W1H 7ND United Kingdom", imageName: "donostia.jpg", isVisited: false),
-      Restaurant(name: "Royal Oak", type: "British", location: "2 Regency Street London SW1P 4BZ United Kingdom", imageName: "royaloak.jpg", isVisited: false),
-      Restaurant(name: "Thai Cafe", type: "Thai", location: "22 Charlwood Street London SW1V 2DY Pimlico", imageName: "thaicafe.jpg", isVisited: false)
-  ]
+  var restaurants: [Restaurant] = []
+  var searchResults: [Restaurant] = []
+  var fetchResultController: NSFetchedResultsController!
+  var searchController: UISearchController!
 
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(true)
@@ -46,13 +28,37 @@ class RestaurantTableViewController: UITableViewController {
 
     tableView.estimatedRowHeight = 80.0
     tableView.rowHeight = UITableViewAutomaticDimension
+    
+    searchController = UISearchController(searchResultsController: nil)
+    searchController.searchBar.sizeToFit()
+    self.tableView.tableHeaderView = searchController.searchBar
+    self.definesPresentationContext = true
+    searchController.searchResultsUpdater = self
+    searchController.dimsBackgroundDuringPresentation = false
+    
+    var fetchRequest = NSFetchRequest(entityName: "Restaurant")
+    let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+    fetchRequest.sortDescriptors = [sortDescriptor]
+    
+    if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+      fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+      fetchResultController.delegate = self
+      
+      var error: NSError?
+      var result = fetchResultController.performFetch(&error)
+      restaurants = fetchResultController.fetchedObjects as! [Restaurant]
+      
+      if result != true {
+        println(error?.localizedDescription)
+      }
+    }
   }
 
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     if segue.identifier == "showRestaurantDetail" {
       if let indexPath = self.tableView.indexPathForSelectedRow() {
         let destinationController = segue.destinationViewController as! DetailViewController
-        destinationController.restaurant = restaurants[indexPath.row]
+        destinationController.restaurant = (searchController.active) ? searchResults[indexPath.row] : restaurants[indexPath.row]
       }
     }
   }
@@ -70,7 +76,11 @@ class RestaurantTableViewController: UITableViewController {
 
   override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     // Return the number of rows in the section.
-    return self.restaurants.count
+    if self.searchController.active {
+      return self.searchResults.count
+    } else {
+      return self.restaurants.count
+    }
   }
 
   override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -78,12 +88,12 @@ class RestaurantTableViewController: UITableViewController {
     let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as! CustomTableViewCell
 
     // Configure the cell...
-    let restaurant = restaurants[indexPath.row]
+    let restaurant = (searchController.active) ? searchResults[indexPath.row] : restaurants[indexPath.row]
     cell.nameLabel?.text = restaurant.name
     cell.locationLabel?.text = restaurant.location
     cell.typeLabel?.text = restaurant.type
-    cell.thumbnailImageView?.image = UIImage(named: restaurant.image)
-    cell.favorIconImageView?.hidden = !restaurant.isVisited
+    cell.thumbnailImageView?.image = UIImage(data: restaurant.image)
+    cell.favorIconImageView?.hidden = !restaurant.isVisited.boolValue
 
     cell.thumbnailImageView.layer.cornerRadius = cell.thumbnailImageView.frame.size.width / 2
     cell.thumbnailImageView.clipsToBounds = true
@@ -123,6 +133,14 @@ class RestaurantTableViewController: UITableViewController {
 //    tableView.deselectRowAtIndexPath(indexPath, animated: false)
 //  }
 
+  override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    if searchController.active {
+      return false
+    } else {
+      return true
+    }
+  }
+  
   override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 //    if editingStyle == .Delete {
 //      self.restaurants.removeAtIndex(indexPath.row)
@@ -148,13 +166,66 @@ class RestaurantTableViewController: UITableViewController {
 
     var deleteAction = UITableViewRowAction(style: UITableViewRowActionStyle.Default, title: "Delete") {
       (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
-      self.restaurants.removeAtIndex(indexPath.row)
-
-      self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+//      self.restaurants.removeAtIndex(indexPath.row)
+//      self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+      if let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext {
+        let restaurantToDelete = self.fetchResultController.objectAtIndexPath(indexPath) as! Restaurant
+        managedObjectContext.deleteObject(restaurantToDelete)
+        
+        var error: NSError?
+        if managedObjectContext.save(&error) != true {
+          println("delete error: \(error!.localizedDescription)")
+        }
+      }
     }
     shareAction.backgroundColor = UIColor(red: 255.0 / 255.0, green: 166.0 / 255.0, blue: 51.0 / 255.0, alpha: 1.0)
     deleteAction.backgroundColor = UIColor(red: 51.0 / 255.0, green: 51.0 / 255.0, blue: 51.0 / 255.0, alpha: 1.0)
     return [deleteAction, shareAction]
   }
+  
+  func controllerWillChangeContent(controller: NSFetchedResultsController) {
+    self.tableView.beginUpdates()
+  }
+  
+  func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+    switch type {
+    case .Insert:
+      if let _newIndexPath = newIndexPath {
+        tableView.insertRowsAtIndexPaths([_newIndexPath], withRowAnimation: .Fade)
+      }
+    case .Delete:
+      if let _indexPath = indexPath {
+        tableView.deleteRowsAtIndexPaths([_indexPath], withRowAnimation: .Fade)
+      }
+    case .Update:
+      if let _indexPath = indexPath {
+        tableView.reloadRowsAtIndexPaths([_indexPath], withRowAnimation: .Fade)
+      }
+    default:
+      tableView.reloadData()
+    }
+    
+    restaurants = controller.fetchedObjects as! [Restaurant]
+  }
+  
+  func controllerDidChangeContent(controller: NSFetchedResultsController) {
+    tableView.endUpdates()
+  }
+  
+  func filterContentForSearchText(searchText: String) {
+    searchResults = restaurants.filter({ (restaurant: Restaurant) -> Bool in
+      let nameMatch = restaurant.name.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+      let locationMatch = restaurant.location.rangeOfString(searchText, options: NSStringCompareOptions.CaseInsensitiveSearch)
+      
+      return (nameMatch != nil) || (locationMatch != nil)
+    })
+  }
+}
 
+extension RestaurantTableViewController: UISearchResultsUpdating {
+  func updateSearchResultsForSearchController(searchController: UISearchController) {
+    let searchText = searchController.searchBar.text
+    filterContentForSearchText(searchText)
+    tableView.reloadData()
+  }
 }
