@@ -124,10 +124,10 @@
             </objects>
             <point key="canvasLocation" x="978" y="1124"/>
         </scene>
-        <!--View Controller-->
+        <!--About View Controller-->
         <scene sceneID="YbV-os-N6E">
             <objects>
-                <viewController id="KeC-xx-zjD" sceneMemberID="viewController">
+                <viewController id="KeC-xx-zjD" customClass="AboutViewController" customModule="FoodPin" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EOy-HN-n2T"/>
                         <viewControllerLayoutGuide type="bottom" id="E2m-K1-CPJ"/>
@@ -135,6 +135,45 @@
                     <view key="view" contentMode="scaleToFill" id="vWO-hg-n6N">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="about" translatesAutoresizingMaskIntoConstraints="NO" id="pvq-qr-axH">
+                                <rect key="frame" x="60" y="87" width="200" height="200"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Got Questions" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pKi-Gn-Sf8">
+                                <rect key="frame" x="104" y="300" width="113" height="24"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" red="0.57647058823529407" green="0.57647058823529407" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You're just a tap away" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="luW-tw-ISc">
+                                <rect key="frame" x="85" y="332" width="151" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.57647058823529407" green="0.57647058823529407" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fcj-CM-wNF">
+                                <rect key="frame" x="48" y="410" width="224" height="30"/>
+                                <color key="backgroundColor" red="0.92156862745098034" green="0.20392156862745098" blue="0.019607843137254902" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Contact Us">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendEmail:" destination="KeC-xx-zjD" eventType="touchUpInside" id="ECa-Kl-oNU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WTw-04-usG">
+                                <rect key="frame" x="48" y="463" width="224" height="30"/>
+                                <color key="backgroundColor" red="0.92156862750000001" green="0.20392156859999999" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="Visit our website">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="wy8-oB-aWA" kind="push" id="R11-2k-diK"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="vP0-IU-5ms"/>
@@ -142,6 +181,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="guK-z2-sVz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="978" y="1880"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="zBJ-Ur-79f">
+            <objects>
+                <viewController id="wy8-oB-aWA" customClass="WebViewController" customModule="FoodPin" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="coZ-kx-u5f"/>
+                        <viewControllerLayoutGuide type="bottom" id="760-Sn-ox0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lMa-4a-gz4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aXK-3k-Bh0">
+                                <rect key="frame" x="0.0" y="64" width="320" height="461"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="vap-FW-fiu"/>
+                    <connections>
+                        <outlet property="webView" destination="aXK-3k-Bh0" id="oBp-Dg-AUJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KtQ-n3-ytR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1353" y="1880"/>
         </scene>
         <!--Feed-->
         <scene sceneID="SFS-gS-SyW">
@@ -757,6 +824,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="about" width="1024" height="1024"/>
         <image name="bad" width="64" height="64"/>
         <image name="cafeloisl" width="640" height="640"/>
         <image name="camera" width="256" height="256"/>
